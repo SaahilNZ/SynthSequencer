@@ -49,10 +49,11 @@ function createGrid() {
         var cellArray = []
         for (var x = 0; x < beats; x++) {
             cell = document.createElement("td");
-            sequencerNode = document.createElement("input");
-            sequencerNode.type = "checkbox";
-            cell.appendChild(sequencerNode);
-            cellArray[x] = sequencerNode;
+            node = document.createElement("div");
+            node.className += "sequencerNode";
+            node.onclick = toggleChecked;
+            cell.appendChild(node);
+            cellArray[x] = node;
             row.appendChild(cell);
         }
         sequencerNodes[y] = cellArray
@@ -73,12 +74,23 @@ function playSynth() {
         var x = Math.floor((context.currentTime / noteLength) % beats);
         for (var y = 0; y < oscillators.length; y++) {
             var noteProgress = (context.currentTime / noteLength) % 1;
-            if (sequencerNodes[y][x].checked && noteProgress < cutoff) {
+            if (sequencerNodes[y][x].classList.contains("checked")
+                    && noteProgress < cutoff) {
                 gainNodes[y].gain.value = 1;
             }
             else {
                 gainNodes[y].gain.value = 0;
             }
         }
+    }
+}
+
+function toggleChecked() {
+    var node = window.event.srcElement;
+    if (node.classList.contains("checked")) {
+        node.classList.remove("checked");
+    }
+    else {
+        node.classList.add("checked")
     }
 }
