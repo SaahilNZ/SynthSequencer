@@ -1,4 +1,6 @@
 var bpm = 60;
+var noteLength = bpm / 60;
+var beats = 16;
 var context;
 var frequencies = [
     261.64,
@@ -20,6 +22,20 @@ var frequencies = [
 
 window.AudioContext = window.AudioContext||window.webkitAudioContext;
 context = new AudioContext();
+
+function createGrid() {
+    html = "";
+    for (y = 0; y < frequencies.length; y++) {
+        html += "<tr>";
+        for (x = 0; x < beats; x++) {
+            html += "<td>";
+            html += x + " " + y;
+            html += "</td>";
+        }
+        html += "</tr>";
+    }
+    document.getElementById("sequencerGrid").innerHTML += html;
+}
 
 function startAudio() {
     
