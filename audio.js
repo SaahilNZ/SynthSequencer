@@ -28,7 +28,10 @@ function createGrid() {
         row = document.createElement("tr");
         for (x = 0; x < beats; x++) {
             cell = document.createElement("td");
-            cell.innerHTML += x + " " + y;
+            sequencerNode = document.createElement("input");
+            sequencerNode.type = "checkbox";
+            sequencerNode.id = x + "_" + y;
+            cell.appendChild(sequencerNode);
             row.appendChild(cell);
         }
         document.getElementById("sequencerGrid").appendChild(row);
