@@ -1,5 +1,5 @@
-var bpm = 120;
-var noteLength = 60 / bpm;
+var bpm = 60;
+var noteLength = 15 / bpm;
 var cutoff = 0.9;
 var beats = 16;
 var context;
