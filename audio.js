@@ -1,5 +1,5 @@
-var bpm = 60;
-var noteLength = bpm / 60;
+var bpm = 120;
+var noteLength = 60 / bpm;
 var beats = 16;
 var context;
 var sequencerNodes = []
@@ -30,7 +30,7 @@ context.suspend();
 for (var i = 0; i < frequencies.length; i++) {
     var osc = context.createOscillator();
     var gain = context.createGain();
-    gain.gain.value = 1;
+    gain.gain.value = 0;
     osc.frequency.value = frequencies[i];
     osc.type = "square";
     osc.connect(gain);
@@ -40,10 +40,12 @@ for (var i = 0; i < frequencies.length; i++) {
     gainNodes[i] = gain;
 }
 
+window.setInterval(playSynth, 10);
+
 function createGrid() {
     for (var y = 0; y < frequencies.length; y++) {
         row = document.createElement("tr");
-        cellArray = []
+        var cellArray = []
         for (var x = 0; x < beats; x++) {
             cell = document.createElement("td");
             sequencerNode = document.createElement("input");
@@ -66,5 +68,15 @@ function stopAudio() {
 }
 
 function playSynth() {
-    
+    if (context.state == "running") {
+        var x = Math.floor((context.currentTime / noteLength) % beats);
+        for (var y = 0; y < oscillators.length; y++) {
+            if (sequencerNodes[y][x].checked) {
+                gainNodes[y].gain.value = 1;
+            }
+            else {
+                gainNodes[y].gain.value = 0;
+            }
+        }
+    }
 }
