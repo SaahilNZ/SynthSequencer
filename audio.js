@@ -1,5 +1,6 @@
 var bpm = 120;
 var noteLength = 60 / bpm;
+var cutoff = 0.9;
 var beats = 16;
 var context;
 var sequencerNodes = []
@@ -71,7 +72,8 @@ function playSynth() {
     if (context.state == "running") {
         var x = Math.floor((context.currentTime / noteLength) % beats);
         for (var y = 0; y < oscillators.length; y++) {
-            if (sequencerNodes[y][x].checked) {
+            var noteProgress = (context.currentTime / noteLength) % 1;
+            if (sequencerNodes[y][x].checked && noteProgress < cutoff) {
                 gainNodes[y].gain.value = 1;
             }
             else {
