@@ -72,8 +72,10 @@ function stopAudio() {
 function playSynth() {
     if (context.state == "running") {
         var x = Math.floor((context.currentTime / noteLength) % beats);
+        clearSelection();
         for (var y = 0; y < oscillators.length; y++) {
             var noteProgress = (context.currentTime / noteLength) % 1;
+            sequencerNodes[y][x].classList.add("selected");
             if (sequencerNodes[y][x].classList.contains("checked")
                     && noteProgress < cutoff) {
                 gainNodes[y].gain.value = 1;
@@ -92,5 +94,16 @@ function toggleChecked() {
     }
     else {
         node.classList.add("checked")
+    }
+}
+
+function clearSelection() {
+    for (var y = 0; y < oscillators.length; y++) {
+        for (var x = 0; x < beats; x++) {
+            node = sequencerNodes[y][x];
+            if (node.classList.contains("selected")) {
+                node.classList.remove("selected");
+            }
+        }
     }
 }

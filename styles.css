@@ -26,6 +26,14 @@ body {
     background-color: cornflowerblue;
 }
 
+.sequencerNode.selected {
+    background-color: #888;
+}
+
+.sequencerNode.checked.selected {
+    background-color: #0DF
+}
+
 .buttonContainer {
     height: 50px;
 }
