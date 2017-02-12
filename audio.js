@@ -2,6 +2,7 @@ var bpm = 60;
 var noteLength = bpm / 60;
 var beats = 16;
 var context;
+var sequencerNodes = [][]
 var frequencies = [
     261.64,
     293.66,
@@ -30,8 +31,8 @@ function createGrid() {
             cell = document.createElement("td");
             sequencerNode = document.createElement("input");
             sequencerNode.type = "checkbox";
-            sequencerNode.id = x + "_" + y;
             cell.appendChild(sequencerNode);
+            sequencerNodes[x][y] = sequencerNode;
             row.appendChild(cell);
         }
         document.getElementById("sequencerGrid").appendChild(row);
