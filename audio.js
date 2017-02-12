@@ -20,15 +20,31 @@ var frequencies = [
     987.77,
     1046.50
 ];
+var oscillators = [];
+var gainNodes = [];
 
 window.AudioContext = window.AudioContext||window.webkitAudioContext;
 context = new AudioContext();
+context.suspend();
+
+for (var i = 0; i < frequencies.length; i++) {
+    var osc = context.createOscillator();
+    var gain = context.createGain();
+    gain.gain.value = 1;
+    osc.frequency.value = frequencies[i];
+    osc.type = "square";
+    osc.connect(gain);
+    gain.connect(context.destination);
+    osc.start();
+    oscillators[i] = osc;
+    gainNodes[i] = gain;
+}
 
 function createGrid() {
-    for (y = 0; y < frequencies.length; y++) {
+    for (var y = 0; y < frequencies.length; y++) {
         row = document.createElement("tr");
         cellArray = []
-        for (x = 0; x < beats; x++) {
+        for (var x = 0; x < beats; x++) {
             cell = document.createElement("td");
             sequencerNode = document.createElement("input");
             sequencerNode.type = "checkbox";
@@ -47,4 +63,8 @@ function startAudio() {
 
 function stopAudio() {
     context.suspend();
+}
+
+function playSynth() {
+    
 }
