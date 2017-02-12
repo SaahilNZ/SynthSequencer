@@ -24,17 +24,15 @@ window.AudioContext = window.AudioContext||window.webkitAudioContext;
 context = new AudioContext();
 
 function createGrid() {
-    html = "";
     for (y = 0; y < frequencies.length; y++) {
-        html += "<tr>";
+        row = document.createElement("tr");
         for (x = 0; x < beats; x++) {
-            html += "<td>";
-            html += x + " " + y;
-            html += "</td>";
+            cell = document.createElement("td");
+            cell.innerHTML += x + " " + y;
+            row.appendChild(cell);
         }
-        html += "</tr>";
+        document.getElementById("sequencerGrid").appendChild(row);
     }
-    document.getElementById("sequencerGrid").innerHTML += html;
 }
 
 function startAudio() {
