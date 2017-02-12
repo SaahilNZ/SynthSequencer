@@ -25,3 +25,33 @@ body {
 .sequencerNode.checked {
     background-color: cornflowerblue;
 }
+
+.buttonContainer {
+    height: 50px;
+}
+
+.controlButton {
+    display: inline-block;
+    width: 45%;
+    height: 50px;
+    margin: 5px;
+    background-color: #222;
+}
+
+.controlButton:hover {
+    background-color: #333;
+}
+
+.controlButton p {
+    display: inline-block;
+    vertical-align: middle;
+    color: white;
+}
+
+#btnStart {
+    float: left;
+}
+
+#btnStop {
+    float: right;
+}
