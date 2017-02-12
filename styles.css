@@ -4,6 +4,18 @@ body {
     background-color: #111;
 }
 
+.parent {
+    position: relative;
+}
+
+.contentContainer {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+}
+
 .sequencerNode {
     width: 20px;
     height: 20px;

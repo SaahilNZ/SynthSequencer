@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Web Audio API Test</title>
-        <link rel="stylesheet" href="styles.css">
-        <script src="audio.js"></script>
-    </head>
-    <body onload="createGrid()">
-        <table id="sequencerGrid"></table>
-        <button id="btnStart" onclick="startAudio()">Start</button>
-        <br>
-        <button id="btnStop" onclick="stopAudio()">Stop</button>
-    </body>
+
+<head>
+    <title>Web Audio API Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="audio.js"></script>
+</head>
+
+<body onload="createGrid()">
+    <div class="parent">
+        <div class="contentContainer">
+            <table id="sequencerGrid"></table>
+            <button id="btnStart" onclick="startAudio()">Start</button>
+            <button id="btnStop" onclick="stopAudio()">Stop</button>
+        </div>
+    </div>
+</body>
+
 </html>
