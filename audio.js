@@ -108,11 +108,18 @@ function clearSelection() {
     }
 }
 
-function changeWaveform() {
-    var cb = document.getElementById("waveform");
-    var waveform = cb.options[cb.selectedIndex].text;
-
+function changeWaveform(waveform) {
     for (var i = 0; i < oscillators.length; i++) {
-        oscillators[i].type = waveform.toLowerCase();
+        oscillators[i].type = waveform;
+    }
+}
+
+function clearGrid() {
+    var nodes = document.getElementsByClassName("sequencerNode");
+    for (var i = 0; i < nodes.length; i++) {
+        var node = nodes[i];
+        if (node.classList.contains("checked")) {
+            node.classList.remove("checked");
+        }
     }
 }
