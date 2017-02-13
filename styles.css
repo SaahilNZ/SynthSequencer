@@ -33,16 +33,48 @@ body {
     background-color: #333;
 }
 
+.sequencerNode:hover {
+    background-color: #444;
+}
+
+.sequencerNode:active {
+    background-color: #222;
+}
+
 .sequencerNode.checked {
     background-color: cornflowerblue;
+}
+
+.sequencerNode.checked:hover {
+    background-color: #7EA6EA   ;
+}
+
+.sequencerNode.checked:active {
+    background-color: #3879EA;
 }
 
 .sequencerNode.selected {
     background-color: #555;
 }
 
+.sequencerNode.selected:hover {
+    background-color: #707070; 
+}
+
+.sequencerNode.selected:active {
+    background-color: #444;
+}
+
 .sequencerNode.checked.selected {
     background-color: #0DF
+}
+
+.sequencerNode.checked.selected:hover {
+    background-color: #93F0FF;
+}
+
+.sequencerNode.checked.selected:active {
+    background-color: #00A7FF;
 }
 
 .buttonContainer {
