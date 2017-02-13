@@ -148,6 +148,18 @@ body {
     background-color: #1D1D1D;
 }
 
+.waveformButton.selected {
+    background-color: cornflowerblue;
+}
+
+.waveformButton.selected:hover {
+    background-color: #7EA6EA   ;
+}
+
+.waveformButton.selected:active {
+    background-color: #3879EA;
+}
+
 .waveformButton img {
     position: absolute;
     top: 50%;

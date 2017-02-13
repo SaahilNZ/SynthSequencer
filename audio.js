@@ -24,7 +24,7 @@ var frequencies = [
 var oscillators = [];
 var gainNodes = [];
 
-window.AudioContext = window.AudioContext||window.webkitAudioContext;
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
 context = new AudioContext();
 context.suspend();
 
@@ -77,7 +77,7 @@ function playSynth() {
             var noteProgress = (context.currentTime / noteLength) % 1;
             sequencerNodes[y][x].classList.add("selected");
             if (sequencerNodes[y][x].classList.contains("checked")
-                    && noteProgress < cutoff) {
+                && noteProgress < cutoff) {
                 gainNodes[y].gain.value = 1;
             }
             else {
@@ -109,8 +109,82 @@ function clearSelection() {
 }
 
 function changeWaveform(waveform) {
-    for (var i = 0; i < oscillators.length; i++) {
-        oscillators[i].type = waveform;
+    var sine = document.getElementById("sineButton");
+    var saw = document.getElementById("sawtoothButton");
+    var square = document.getElementById("squareButton");
+    var triangle = document.getElementById("triangleButton");
+
+    if (waveform == "sine") {
+        if (saw.classList.contains("selected")) {
+            saw.classList.remove("selected");
+        }
+        if (square.classList.contains("selected")) {
+            square.classList.remove("selected");
+        }
+        if (triangle.classList.contains("selected")) {
+            triangle.classList.remove("selected");
+        }
+
+        if (!sine.classList.contains("selected")) {
+            sine.classList.add("selected");
+            for (var i = 0; i < oscillators.length; i++) {
+                oscillators[i].type = waveform;
+            }
+        }
+    }
+    else if (waveform == "sawtooth") {
+        if (sine.classList.contains("selected")) {
+            sine.classList.remove("selected");
+        }
+        if (square.classList.contains("selected")) {
+            square.classList.remove("selected");
+        }
+        if (triangle.classList.contains("selected")) {
+            triangle.classList.remove("selected");
+        }
+
+        if (!saw.classList.contains("selected")) {
+            saw.classList.add("selected");
+            for (var i = 0; i < oscillators.length; i++) {
+                oscillators[i].type = waveform;
+            }
+        }
+    }
+    else if (waveform == "square") {
+        if (saw.classList.contains("selected")) {
+            saw.classList.remove("selected");
+        }
+        if (sine.classList.contains("selected")) {
+            sine.classList.remove("selected");
+        }
+        if (triangle.classList.contains("selected")) {
+            triangle.classList.remove("selected");
+        }
+
+        if (!square.classList.contains("selected")) {
+            square.classList.add("selected");
+            for (var i = 0; i < oscillators.length; i++) {
+                oscillators[i].type = waveform;
+            }
+        }
+    }
+    else if (waveform == "triangle") {
+        if (saw.classList.contains("selected")) {
+            saw.classList.remove("selected");
+        }
+        if (square.classList.contains("selected")) {
+            square.classList.remove("selected");
+        }
+        if (sine.classList.contains("selected")) {
+            sine.classList.remove("selected");
+        }
+
+        if (!triangle.classList.contains("selected")) {
+            triangle.classList.add("selected");
+            for (var i = 0; i < oscillators.length; i++) {
+                oscillators[i].type = waveform;
+            }
+        }
     }
 }
 
