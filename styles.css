@@ -1,0 +1,169 @@
+@font-face {
+    font-family: BebasNeue;
+    src: url(fonts/bebasneue.otf);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #111;
+}
+
+.parent {
+    position: relative;
+}
+
+.contentContainer {
+    margin: 0;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
+}
+
+.title {
+    color: white;
+    font-family: BebasNeue;
+    font-size: 3em;
+    margin: 12px 0 8px 0;
+}
+
+#sequencerGrid {
+    border-collapse: collapse;
+}
+
+.sequencerNode {
+    width: 20px;
+    height: 20px;
+    background-color: #333;
+}
+
+.sequencerNode:hover {
+    background-color: #444;
+}
+
+.sequencerNode:active {
+    background-color: #222;
+}
+
+.sequencerNode.checked {
+    background-color: cornflowerblue;
+}
+
+.sequencerNode.checked:hover {
+    background-color: #7EA6EA   ;
+}
+
+.sequencerNode.checked:active {
+    background-color: #3879EA;
+}
+
+.sequencerNode.selected {
+    background-color: #555;
+}
+
+.sequencerNode.selected:hover {
+    background-color: #707070; 
+}
+
+.sequencerNode.selected:active {
+    background-color: #444;
+}
+
+.sequencerNode.checked.selected {
+    background-color: #0DF
+}
+
+.sequencerNode.checked.selected:hover {
+    background-color: #93F0FF;
+}
+
+.sequencerNode.checked.selected:active {
+    background-color: #00A7FF;
+}
+
+.buttonContainer {
+    margin-top: 8px;
+    height: 50px;
+}
+
+.controlButton {
+    display: inline-block;
+    position: relative;
+    padding: 0;
+    width: calc(33% - 4px);
+    height: 50px;
+    background-color: #222;
+}
+
+.controlButton:hover {
+    background-color: #333;
+}
+
+.controlButton:active {
+    background-color: #1D1D1D;
+}
+
+.controlButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 2em;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#btnStart {
+    float: left;
+}
+
+#btnStop {
+    float: right;
+}
+
+.waveformContainer {
+    width: 100%;
+    text-align: justify;
+}
+
+.waveformButton {
+    display: inline-block;
+    *display: inline;
+    margin-top: 8px;
+    width: calc(25% - 4px);
+    height: 50px;
+    position: relative;
+    background-color: #222;
+}
+
+.waveformButton:hover {
+    background-color: #333;
+}
+
+.waveformButton:active {
+    background-color: #1D1D1D;
+}
+
+.waveformButton img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.stretch {
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+.copyright {
+    color: #444;
+    font-family: BebasNeue;
+    font-size: 1.5em;
+}

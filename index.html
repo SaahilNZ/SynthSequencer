@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Web Audio API Test</title>
-        <script src="audio.js"></script>
-    </head>
-    <body onload="createGrid()">
-        <table id="sequencerGrid"></table>
-        <button id="btnStart" onclick="startAudio()">Start</button>
-        <br>
-        <button id="btnStop" onclick="stopAudio()">Stop</button>
-    </body>
+
+<head>
+    <title>Synth Sequencer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="audio.js"></script>
+</head>
+
+<body onload="createGrid()">
+    <div class="parent">
+        <div class="contentContainer">
+            <h1 class="title">Synth Sequencer</h1>
+            <table id="sequencerGrid"></table>
+            <div class="buttonContainer">
+                <div class="controlButton" id="btnStart" onclick="startAudio()">
+                    <p>Start</p>
+                </div>
+                <div class="controlButton" id="btnStop" onclick="stopAudio()">
+                    <p>Stop</p>
+                </div>
+                <div class="controlButton" id="btnClear" onclick="clearGrid()">
+                    <p>Clear</p>
+                </div>
+            </div>
+            <div class="waveformContainer">
+                <div class="waveformButton" id="sineButton" onclick="changeWaveform('sine')">
+                    <img src="images/sine.png"/>
+                </div>
+                <div class="waveformButton" id="sawtoothButton" onclick="changeWaveform('sawtooth')">
+                    <img src="images/sawtooth.png"/>
+                </div>
+                <div class="waveformButton" id="squareButton" onclick="changeWaveform('square')">
+                    <img src="images/square.png"/>
+                </div>
+                <div class="waveformButton" id="triangleButton" onclick="changeWaveform('triangle')">
+                    <img src="images/triangle.png"/>
+                </div>
+                <span class="stretch"></span>
+            </div>
+            <p class="copyright">Copyright &copy; Saahil Hari 2017</p>
+        </div>
+    </div>
+</body>
+
 </html>
