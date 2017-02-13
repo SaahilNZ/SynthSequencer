@@ -63,6 +63,10 @@ body {
     background-color: #333;
 }
 
+.controlButton:active {
+    background-color: #1D1D1D
+}
+
 .controlButton p {
     display: inline-block;
     vertical-align: middle;
