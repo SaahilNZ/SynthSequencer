@@ -148,11 +148,33 @@ body {
     background-color: #1D1D1D;
 }
 
+.waveformButton.selected {
+    background-color: cornflowerblue;
+}
+
+.waveformButton.selected:hover {
+    background-color: #7EA6EA   ;
+}
+
+.waveformButton.selected:active {
+    background-color: #3879EA;
+}
+
 .waveformButton img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.waveformButton img.blur {
+    display: none;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+}
+
+.waveformButton.selected img.blur {
+    display: inline;
 }
 
 .stretch {
