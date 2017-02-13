@@ -1,3 +1,8 @@
+@font-face {
+    font-family: BebasNeue;
+    src: url(fonts/bebasneue.otf);
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -14,6 +19,12 @@ body {
     left: 50%;
     transform: translate(-50%, 0%);
     text-align: center;
+}
+
+.title {
+    color: white;
+    font-family: BebasNeue;
+    font-size: 3em;
 }
 
 .sequencerNode {
@@ -40,6 +51,8 @@ body {
 
 .controlButton {
     display: inline-block;
+    position: relative;
+    padding: 0;
     width: 45%;
     height: 50px;
     margin: 5px;
@@ -53,6 +66,13 @@ body {
 .controlButton p {
     display: inline-block;
     vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 2em;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: white;
 }
 
