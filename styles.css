@@ -27,7 +27,7 @@ body {
 }
 
 .sequencerNode.selected {
-    background-color: #888;
+    background-color: #555;
 }
 
 .sequencerNode.checked.selected {
