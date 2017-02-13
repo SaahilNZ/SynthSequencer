@@ -119,3 +119,27 @@ body {
 #btnStop {
     float: right;
 }
+
+.combobox {
+    margin: 15px 5px 5px 5px;
+    background-color: #222;
+    height: 50px;
+}
+
+.combobox select {
+    background: transparent;
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-family: BebasNeue;
+    font-size: 2em;
+}
+
+.combobox select option {
+    background-color: #333;
+}
+
+.combobox select option:hover {
+    background-color: #444;
+}

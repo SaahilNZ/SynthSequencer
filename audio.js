@@ -33,7 +33,7 @@ for (var i = 0; i < frequencies.length; i++) {
     var gain = context.createGain();
     gain.gain.value = 0;
     osc.frequency.value = frequencies[i];
-    osc.type = "square";
+    osc.type = "sine";
     osc.connect(gain);
     gain.connect(context.destination);
     osc.start();
@@ -105,5 +105,14 @@ function clearSelection() {
                 node.classList.remove("selected");
             }
         }
+    }
+}
+
+function changeWaveform() {
+    var cb = document.getElementById("waveform");
+    var waveform = cb.options[cb.selectedIndex].text;
+
+    for (var i = 0; i < oscillators.length; i++) {
+        oscillators[i].type = waveform.toLowerCase();
     }
 }
