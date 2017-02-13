@@ -167,6 +167,16 @@ body {
     transform: translate(-50%, -50%);
 }
 
+.waveformButton img.blur {
+    display: none;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+}
+
+.waveformButton.selected img.blur {
+    display: inline;
+}
+
 .stretch {
     width: 100%;
     display: inline-block;
