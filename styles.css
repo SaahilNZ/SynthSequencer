@@ -143,3 +143,20 @@ body {
 .combobox select option:hover {
     background-color: #444;
 }
+
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #222;
+}
+
+.footer p {
+    margin: 0;
+    color: white;
+    font-family: BebasNeue;
+    font-size: 1.5em;
+    text-align: center;
+}
