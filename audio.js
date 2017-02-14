@@ -45,6 +45,7 @@ for (var i = 0; i < frequencies.length; i++) {
 }
 
 window.setInterval(playSynth, 10);
+window.setInterval(randomiseGrid, 10);
 
 function createGrid() {
     for (var y = 0; y < frequencies.length; y++) {
@@ -90,7 +91,7 @@ function playSynth() {
     }
 }
 
-function toggleChecked() {
+function toggleChecked(isManual) {
     var node = window.event.srcElement;
     if (node.classList.contains("checked")) {
         node.classList.remove("checked");
@@ -210,5 +211,27 @@ function toggleRandomise() {
     else {
         randomise = true;
         randomiseButton.classList.add("selected");
+    }
+}
+
+function randomiseGrid() {
+    if (context.state == "running" && randomise) {
+        if (Math.floor((context.currentTime / noteLength) % beats) == 0) {
+            if (!nodeAdded) {
+                var x = Math.round(Math.random() * (beats - 1));
+                var y = Math.round(Math.random() * (sequencerNodes.length - 1));
+                var node = sequencerNodes[y][x];
+                if (node.classList.contains("checked")) {
+                    node.classList.remove("checked");
+                }
+                else {
+                    node.classList.add("checked");
+                }
+                nodeAdded = true;
+            }
+        }
+        else {
+            nodeAdded = false;
+        }
     }
 }
