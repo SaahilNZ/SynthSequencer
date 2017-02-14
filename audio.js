@@ -24,6 +24,9 @@ var frequencies = [
 var oscillators = [];
 var gainNodes = [];
 
+var randomise = false;
+var nodeAdded = false;
+
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 context = new AudioContext();
 context.suspend();
@@ -195,5 +198,17 @@ function clearGrid() {
         if (node.classList.contains("checked")) {
             node.classList.remove("checked");
         }
+    }
+}
+
+function toggleRandomise() {
+    var randomiseButton = document.getElementById("randomiseButton");
+    if (randomiseButton.classList.contains("selected")) {
+        randomise = false;
+        randomiseButton.classList.remove("selected");
+    }
+    else {
+        randomise = true;
+        randomiseButton.classList.add("selected");
     }
 }

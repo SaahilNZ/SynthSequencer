@@ -185,7 +185,7 @@ body {
     line-height: 0;
 }
 
-.randomiseButton {
+#randomiseButton {
     width: 100%;
     height: 50px;
     position: relative;
@@ -193,27 +193,27 @@ body {
     background-color: #222;
 }
 
-.randomiseButton:hover {
+#randomiseButton:hover {
     background-color: #333;
 }
 
-.randomiseButton:active {
+#randomiseButton:active {
     background-color: #1D1D1D;
 }
 
-.randomiseButton.selected {
+#randomiseButton.selected {
     background-color: cornflowerblue;
 }
 
-.randomiseButton.selected:hover {
+#randomiseButton.selected:hover {
     background-color: #7EA6EA   ;
 }
 
-.randomiseButton.selected:active {
+#randomiseButton.selected:active {
     background-color: #3879EA;
 }
 
-.randomiseButton p {
+#randomiseButton p {
     display: inline-block;
     vertical-align: middle;
     position: absolute;
@@ -226,14 +226,14 @@ body {
     color: white;
 }
 
-.randomiseButton p.blur {
+#randomiseButton p.blur {
     display: none;
     -webkit-filter: blur(2px);
     filter: blur(2px);
     opacity: 0.75;
 }
 
-.randomiseButton.selected p.blur {
+#randomiseButton.selected p.blur {
     display: inline-block;
 }
 
