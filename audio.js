@@ -235,3 +235,61 @@ function randomiseGrid() {
         }
     }
 }
+
+function encodeGrid() {
+    var encodedValue = "";
+    var groupCount = Math.ceil((frequencies.length * beats) / 6);
+    for (var i = 0; i < groupCount; i++) {
+        var binary = "";
+        for (var g = 0; g < 6; g++) {
+            var y = Math.floor((g + i * 6) / beats);
+            var x = (g + (i * 6)) % beats;
+            var node = sequencerNodes[y][x];
+            if (node.classList.contains("checked")) {
+                binary += "1";
+            }
+            else {
+                binary += "0";
+            }
+        }
+        encodedValue += convertBase(binary, 2, 64);
+    }
+    var sine = document.getElementById("sineButton");
+    var saw = document.getElementById("sawtoothButton");
+    var square = document.getElementById("squareButton");
+    var triangle = document.getElementById("triangleButton");
+    var wave = 0;
+    if (sine.classList.contains("selected")) {
+        wave = 0;
+    }
+    else if (saw.classList.contains("selected")) {
+        wave = 1;
+    }
+    else if (square.classList.contains("selected")) {
+        wave = 2;
+    }
+    else if (triangle.classList.contains("selected")) {
+        wave = 3;
+    }
+    encodedValue += convertBase(wave.toString(), 10, 64);
+    return encodedValue;
+}
+
+// GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
+function convertBase(value, from_base, to_base) {
+    var range = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
+    var from_range = range.slice(0, from_base);
+    var to_range = range.slice(0, to_base);
+
+    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+        if (from_range.indexOf(digit) === -1) throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
+        return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+    }, 0);
+
+    var new_value = '';
+    while (dec_value > 0) {
+        new_value = to_range[dec_value % to_base] + new_value;
+        dec_value = (dec_value - (dec_value % to_base)) / to_base;
+    }
+    return new_value || '0';
+}
