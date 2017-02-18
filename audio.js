@@ -275,6 +275,40 @@ function encodeGrid() {
     return encodedValue;
 }
 
+function decodeStringSequence(sequence) {
+    clearGrid();
+    var chars = sequence.split('');
+    for (var g = 0; g < chars.length - 1; g++) {
+        var binary = convertBase(chars[g], 64, 2);
+        while (binary.length < 6) {
+            binary = "0" + binary;
+        }
+        //var nodeGroup = binary.split('');
+        for (var i = 0; i < binary.length; i++) {
+            var y = Math.floor((i + (g * 6)) / beats);
+            var x = (i + (g * 6)) % beats;
+            var node = sequencerNodes[y][x];
+            if (binary[i] == "1") {
+                node.classList.add("checked");
+            }
+        }
+    }
+    switch (chars[chars.length - 1]) {
+        case "0":
+            changeWaveform("sine");
+            break;
+        case "1":
+            changeWaveform("sawtooth");
+            break;
+        case "2":
+            changeWaveform("square");
+            break;
+        case "3":
+            changeWaveform("triangle");
+            break;
+    } 
+}
+
 // GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
 function convertBase(value, from_base, to_base) {
     var range = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
