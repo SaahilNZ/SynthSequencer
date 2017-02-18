@@ -24,6 +24,7 @@ var frequencies = [
 ];
 var oscillators = [];
 var gainNodes = [];
+var currentWaveForm = "sine";
 
 var randomise = false;
 var nodeAdded = false;
@@ -37,7 +38,7 @@ for (var i = 0; i < frequencies.length; i++) {
     var gain = context.createGain();
     gain.gain.value = 0;
     osc.frequency.value = frequencies[i];
-    osc.type = "sine";
+    osc.type = currentWaveForm;
     osc.connect(gain);
     gain.connect(context.destination);
     osc.start();
@@ -96,14 +97,9 @@ function playSynth() {
     }
 }
 
-function toggleChecked(isManual) {
+function toggleChecked() {
     var node = window.event.srcElement;
-    if (node.classList.contains("checked")) {
-        node.classList.remove("checked");
-    }
-    else {
-        node.classList.add("checked")
-    }
+    node.classList.toggle("checked");
 }
 
 function clearSelection() {
@@ -118,81 +114,75 @@ function clearSelection() {
 }
 
 function changeWaveform(waveform) {
-    var sine = document.getElementById("sineButton");
-    var saw = document.getElementById("sawtoothButton");
-    var square = document.getElementById("squareButton");
-    var triangle = document.getElementById("triangleButton");
+    if (waveform != currentWaveForm) {
+        switch (waveform) {
+            case "sine":
+                switch (currentWaveForm) {
+                    case "sawtooth":
+                        var saw = document.getElementById("sawtoothButton").classList.remove("selected");
+                        break;
+                    case "square":
+                        var square = document.getElementById("squareButton").classList.remove("selected");
+                        break;
+                    case "triangle":
+                        var triangle = document.getElementById("triangleButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("sineButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
 
-    if (waveform == "sine") {
-        if (saw.classList.contains("selected")) {
-            saw.classList.remove("selected");
-        }
-        if (square.classList.contains("selected")) {
-            square.classList.remove("selected");
-        }
-        if (triangle.classList.contains("selected")) {
-            triangle.classList.remove("selected");
-        }
+            case "sawtooth":
+                switch (currentWaveForm) {
+                    case "sine":
+                        document.getElementById("sineButton").classList.remove("selected");
+                        break;
+                    case "square":
+                        var square = document.getElementById("squareButton").classList.remove("selected");
+                        break;
+                    case "triangle":
+                        var triangle = document.getElementById("triangleButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("sawtoothButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
 
-        if (!sine.classList.contains("selected")) {
-            sine.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
-        }
-    }
-    else if (waveform == "sawtooth") {
-        if (sine.classList.contains("selected")) {
-            sine.classList.remove("selected");
-        }
-        if (square.classList.contains("selected")) {
-            square.classList.remove("selected");
-        }
-        if (triangle.classList.contains("selected")) {
-            triangle.classList.remove("selected");
-        }
+            case "square":
+                switch (currentWaveForm) {
+                    case "sine":
+                        document.getElementById("sineButton").classList.remove("selected");
+                        break;
+                    case "sawtooth":
+                        var saw = document.getElementById("sawtoothButton").classList.remove("selected");
+                        break;
+                    case "triangle":
+                        var triangle = document.getElementById("triangleButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("squareButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
 
-        if (!saw.classList.contains("selected")) {
-            saw.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
-        }
-    }
-    else if (waveform == "square") {
-        if (saw.classList.contains("selected")) {
-            saw.classList.remove("selected");
-        }
-        if (sine.classList.contains("selected")) {
-            sine.classList.remove("selected");
-        }
-        if (triangle.classList.contains("selected")) {
-            triangle.classList.remove("selected");
-        }
-
-        if (!square.classList.contains("selected")) {
-            square.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
-        }
-    }
-    else if (waveform == "triangle") {
-        if (saw.classList.contains("selected")) {
-            saw.classList.remove("selected");
-        }
-        if (square.classList.contains("selected")) {
-            square.classList.remove("selected");
-        }
-        if (sine.classList.contains("selected")) {
-            sine.classList.remove("selected");
+            case "triangle":
+                switch (currentWaveForm) {
+                    case "sine":
+                        document.getElementById("sineButton").classList.remove("selected");
+                        break;
+                    case "sawtooth":
+                        var saw = document.getElementById("sawtoothButton").classList.remove("selected");
+                        break;
+                    case "square":
+                        var square = document.getElementById("squareButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("triangleButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
         }
 
-        if (!triangle.classList.contains("selected")) {
-            triangle.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
+        for (var i = 0; i < oscillators.length; i++) {
+            oscillators[i].type = waveform;
         }
     }
 }
@@ -259,23 +249,23 @@ function encodeGrid() {
         }
         encodedValue += convertBase(binary, 2, 64);
     }
-    var sine = document.getElementById("sineButton");
-    var saw = document.getElementById("sawtoothButton");
-    var square = document.getElementById("squareButton");
-    var triangle = document.getElementById("triangleButton");
+
     var wave = 0;
-    if (sine.classList.contains("selected")) {
-        wave = 0;
+    switch (currentWaveForm) {
+        case "sine":
+            wave = 0;
+            break;
+        case "sawtooth":
+            wave = 1;
+            break;
+        case "square":
+            wave = 2;
+            break;
+        case "triangle":
+            wave = 3;
+            break;
     }
-    else if (saw.classList.contains("selected")) {
-        wave = 1;
-    }
-    else if (square.classList.contains("selected")) {
-        wave = 2;
-    }
-    else if (triangle.classList.contains("selected")) {
-        wave = 3;
-    }
+
     encodedValue += convertBase(wave.toString(), 10, 64);
     return encodedValue;
 }
