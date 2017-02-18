@@ -136,7 +136,7 @@ function changeWaveform(waveform) {
                 document.getElementById("sineButton").classList.add("selected");
                 currentWaveForm = waveform;
                 break;
-                
+
             case "sawtooth":
                 switch (currentWaveForm) {
                     case "sine":
@@ -152,7 +152,7 @@ function changeWaveform(waveform) {
                 document.getElementById("sawtoothButton").classList.add("selected");
                 currentWaveForm = waveform;
                 break;
-                
+
             case "square":
                 switch (currentWaveForm) {
                     case "sine":
@@ -168,7 +168,7 @@ function changeWaveform(waveform) {
                 document.getElementById("squareButton").classList.add("selected");
                 currentWaveForm = waveform;
                 break;
-                
+
             case "triangle":
                 switch (currentWaveForm) {
                     case "sine":
@@ -254,23 +254,23 @@ function encodeGrid() {
         }
         encodedValue += convertBase(binary, 2, 64);
     }
-    var sine = document.getElementById("sineButton");
-    var saw = document.getElementById("sawtoothButton");
-    var square = document.getElementById("squareButton");
-    var triangle = document.getElementById("triangleButton");
+    
     var wave = 0;
-    if (sine.classList.contains("selected")) {
-        wave = 0;
+    switch (currentWaveForm) {
+        case "sine":
+            wave = 0;
+            break;
+        case "sawtooth":
+            wave = 1;
+            break;
+        case "square":
+            wave = 2;
+            break;
+        case "triangle":
+            wave = 3;
+            break;
     }
-    else if (saw.classList.contains("selected")) {
-        wave = 1;
-    }
-    else if (square.classList.contains("selected")) {
-        wave = 2;
-    }
-    else if (triangle.classList.contains("selected")) {
-        wave = 3;
-    }
+
     encodedValue += convertBase(wave.toString(), 10, 64);
     return encodedValue;
 }
