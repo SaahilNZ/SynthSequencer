@@ -97,7 +97,7 @@ function playSynth() {
     }
 }
 
-function toggleChecked(isManual) {
+function toggleChecked() {
     var node = window.event.srcElement;
     if (node.classList.contains("checked")) {
         node.classList.remove("checked");
@@ -254,7 +254,7 @@ function encodeGrid() {
         }
         encodedValue += convertBase(binary, 2, 64);
     }
-    
+
     var wave = 0;
     switch (currentWaveForm) {
         case "sine":
