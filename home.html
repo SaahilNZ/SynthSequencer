@@ -53,12 +53,26 @@
                     <p>Randomise</p>
                     <p class="blur">Randomise</p>
                 </div>
-                <div id="shareButton">
+                <div id="shareButton" onclick="toggleShareDialog()">
                     <p>Share</p>
                 </div>
             </div>
             <p class="version">Synth Sequencer v1.1</p>
             <p class="copyright">Copyright &copy; Saahil Hari 2017</p>
+        </div>
+    </div>
+    <div id="shareDialog">
+        <div id="shareContainer">
+            <p>Send this link to a friend to share your sequence:</p>
+            <div id="shareLinkContainer">
+                <input id="shareLink" type="text" readonly>
+                <div id="copyLink">
+                    <p>Copy</p>
+                </div>
+            </div>
+            <div id="closeShareButton" onclick="toggleShareDialog()">
+                <p>Close</p>
+            </div>
         </div>
     </div>
 </body>

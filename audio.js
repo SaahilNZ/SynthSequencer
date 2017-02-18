@@ -348,3 +348,8 @@ function parseQueries() {
 
     return queries;
 }
+
+function toggleShareDialog() {
+    var shareDialog = document.getElementById("shareDialog");
+    shareDialog.classList.toggle("active");
+}
