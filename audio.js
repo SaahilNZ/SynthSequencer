@@ -1,3 +1,4 @@
+var queries = parseQueries();
 var bpm = 60;
 var noteLength = 15 / bpm;
 var cutoff = 0.9;
@@ -62,6 +63,10 @@ function createGrid() {
         }
         sequencerNodes[y] = cellArray
         document.getElementById("sequencerGrid").appendChild(row);
+    }
+
+    if ('sequence' in queries) {
+        decodeStringSequence(queries['sequence']);
     }
 }
 
@@ -283,7 +288,6 @@ function decodeStringSequence(sequence) {
         while (binary.length < 6) {
             binary = "0" + binary;
         }
-        //var nodeGroup = binary.split('');
         for (var i = 0; i < binary.length; i++) {
             var y = Math.floor((i + (g * 6)) / beats);
             var x = (i + (g * 6)) % beats;
@@ -306,7 +310,7 @@ function decodeStringSequence(sequence) {
         case "3":
             changeWaveform("triangle");
             break;
-    } 
+    }
 }
 
 // GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
@@ -326,4 +330,21 @@ function convertBase(value, from_base, to_base) {
         dec_value = (dec_value - (dec_value % to_base)) / to_base;
     }
     return new_value || '0';
+}
+
+function parseQueries() {
+    var url = window.location.href;
+    var queryIndex = url.indexOf('?');
+    if (queryIndex < 0 || queryIndex >= url.length - 1) {
+        return null;
+    }
+    var queryString = url.substring(queryIndex + 1);
+    var queryArray = queryString.split('&');
+    var queries = {};
+    for (var i = 0; i < queryArray.length; i++) {
+        var query = queryArray[i].split('=');
+        queries[query[0]] = query[1];
+    }
+
+    return queries;
 }
