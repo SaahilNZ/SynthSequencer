@@ -352,4 +352,20 @@ function parseQueries() {
 function toggleShareDialog() {
     var shareDialog = document.getElementById("shareDialog");
     shareDialog.classList.toggle("active");
+    if (shareDialog.classList.contains("active")) {
+        generateShareURL();
+    }
+}
+
+function generateShareURL() {
+    var shareURL = "http://synthsequencer.herokuapp.com?sequence=" + encodeGrid();
+    var shareTextBox = document.getElementById("shareLink");
+    shareTextBox.value = shareURL;
+    shareTextBox.select();
+}
+
+function copyShareURL() {
+    var shareTextBox = document.getElementById("shareLink");
+    shareTextBox.select();
+    document.execCommand('copy');
 }
