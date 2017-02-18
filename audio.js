@@ -99,12 +99,7 @@ function playSynth() {
 
 function toggleChecked() {
     var node = window.event.srcElement;
-    if (node.classList.contains("checked")) {
-        node.classList.remove("checked");
-    }
-    else {
-        node.classList.add("checked")
-    }
+    node.classList.toggle("checked");
 }
 
 function clearSelection() {
