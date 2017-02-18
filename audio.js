@@ -65,7 +65,7 @@ function createGrid() {
         document.getElementById("sequencerGrid").appendChild(row);
     }
 
-    if ('sequence' in queries) {
+    if (queries != null && 'sequence' in queries) {
         decodeStringSequence(queries['sequence']);
     }
 }
