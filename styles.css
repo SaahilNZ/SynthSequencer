@@ -11,6 +11,7 @@ body {
 
 .parent {
     position: relative;
+    z-index: 1;
 }
 
 .contentContainer {
@@ -140,7 +141,7 @@ body {
 .waveformButton {
     display: inline-block;
     *display: inline;
-    width: calc(25% - 4px);
+    width: calc(25% - 6px);
     height: 100%;
     position: relative;
     background-color: #222;
@@ -192,10 +193,10 @@ body {
 }
 
 #randomiseButton {
-    width: 100%;
-    height: 6vh;
+    float: left;
+    width: calc(50% - 4px);
+    height: 100%;
     position: relative;
-    margin-top: 8px;
     background-color: #222;
 }
 
@@ -243,6 +244,35 @@ body {
     display: inline-block;
 }
 
+#shareButton {
+    float: right;
+    width: calc(50% - 4px);
+    height: 100%;
+    position: relative;
+    background-color: #222;
+}
+
+#shareButton:hover {
+    background-color: #333;
+}
+
+#shareButton:active {
+    background-color: #1D1D1D;
+}
+
+#shareButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
 .version {
     color: #444;
     font-family: BebasNeue;
@@ -255,4 +285,117 @@ body {
     font-family: BebasNeue;
     font-size: 3vh;
     margin: 4px 0 0 0;
+}
+
+#shareDialog {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: none;
+}
+
+#shareDialog.active {
+    display: inline;
+}
+
+#shareContainer {
+    position: absolute;
+    text-align: center;
+    width: 90vw;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #111;
+}
+
+#shareContainer p {
+    margin: 4vh 0 0 0;
+    max-width: 80vw;
+    text-align: center;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    color: white;
+}
+
+#shareLinkContainer {
+    width: calc(100% - 4vh);
+    height: 6vh;
+    margin: 2vh 2vh 0 2vh;
+    display: inline-block;
+}
+
+#shareLink {
+    width: calc(100% - 12vh - 4px);
+    height: 100%;
+    border: none;
+    padding: 0;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    color: black;
+    float: left;
+}
+
+#copyLink {
+    position: relative;
+    width: 12vh;
+    height: 100%;
+    margin-left: 4px;
+    float: left;
+    background-color: #222;
+}
+
+#copyLink:hover {
+    background-color: #333;
+}
+
+#copyLink:active {
+    background-color: #1D1D1D;
+}
+
+#copyLink p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#closeShareButton {
+    display: inline-block;
+    position: relative;
+    width: 20vh;
+    height: 6vh;
+    max-width: 80vw;
+    background-color: #222;
+    margin: 4vh 0 2vh 0;
+}
+
+#closeShareButton:hover {
+    background-color: #333;
+}
+
+#closeShareButton:active {
+    background-color: #1D1D1D;
+}
+
+#closeShareButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
 }

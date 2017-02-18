@@ -1,3 +1,4 @@
+var queries = parseQueries();
 var bpm = 60;
 var noteLength = 15 / bpm;
 var cutoff = 0.9;
@@ -62,6 +63,10 @@ function createGrid() {
         }
         sequencerNodes[y] = cellArray
         document.getElementById("sequencerGrid").appendChild(row);
+    }
+
+    if (queries != null && 'sequence' in queries) {
+        decodeStringSequence(queries['sequence']);
     }
 }
 
@@ -234,4 +239,133 @@ function randomiseGrid() {
             nodeAdded = false;
         }
     }
+}
+
+function encodeGrid() {
+    var encodedValue = "";
+    var groupCount = Math.ceil((frequencies.length * beats) / 6);
+    for (var i = 0; i < groupCount; i++) {
+        var binary = "";
+        for (var g = 0; g < 6; g++) {
+            var y = Math.floor((g + i * 6) / beats);
+            var x = (g + (i * 6)) % beats;
+            var node = sequencerNodes[y][x];
+            if (node.classList.contains("checked")) {
+                binary += "1";
+            }
+            else {
+                binary += "0";
+            }
+        }
+        encodedValue += convertBase(binary, 2, 64);
+    }
+    var sine = document.getElementById("sineButton");
+    var saw = document.getElementById("sawtoothButton");
+    var square = document.getElementById("squareButton");
+    var triangle = document.getElementById("triangleButton");
+    var wave = 0;
+    if (sine.classList.contains("selected")) {
+        wave = 0;
+    }
+    else if (saw.classList.contains("selected")) {
+        wave = 1;
+    }
+    else if (square.classList.contains("selected")) {
+        wave = 2;
+    }
+    else if (triangle.classList.contains("selected")) {
+        wave = 3;
+    }
+    encodedValue += convertBase(wave.toString(), 10, 64);
+    return encodedValue;
+}
+
+function decodeStringSequence(sequence) {
+    clearGrid();
+    var chars = sequence.split('');
+    for (var g = 0; g < chars.length - 1; g++) {
+        var binary = convertBase(chars[g], 64, 2);
+        while (binary.length < 6) {
+            binary = "0" + binary;
+        }
+        for (var i = 0; i < binary.length; i++) {
+            var y = Math.floor((i + (g * 6)) / beats);
+            var x = (i + (g * 6)) % beats;
+            var node = sequencerNodes[y][x];
+            if (binary[i] == "1") {
+                node.classList.add("checked");
+            }
+        }
+    }
+    switch (chars[chars.length - 1]) {
+        case "0":
+            changeWaveform("sine");
+            break;
+        case "1":
+            changeWaveform("sawtooth");
+            break;
+        case "2":
+            changeWaveform("square");
+            break;
+        case "3":
+            changeWaveform("triangle");
+            break;
+    }
+}
+
+// GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
+function convertBase(value, from_base, to_base) {
+    var range = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
+    var from_range = range.slice(0, from_base);
+    var to_range = range.slice(0, to_base);
+
+    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+        if (from_range.indexOf(digit) === -1) throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
+        return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+    }, 0);
+
+    var new_value = '';
+    while (dec_value > 0) {
+        new_value = to_range[dec_value % to_base] + new_value;
+        dec_value = (dec_value - (dec_value % to_base)) / to_base;
+    }
+    return new_value || '0';
+}
+
+function parseQueries() {
+    var url = window.location.href;
+    var queryIndex = url.indexOf('?');
+    if (queryIndex < 0 || queryIndex >= url.length - 1) {
+        return null;
+    }
+    var queryString = url.substring(queryIndex + 1);
+    var queryArray = queryString.split('&');
+    var queries = {};
+    for (var i = 0; i < queryArray.length; i++) {
+        var query = queryArray[i].split('=');
+        queries[query[0]] = query[1];
+    }
+
+    return queries;
+}
+
+function toggleShareDialog() {
+    var shareDialog = document.getElementById("shareDialog");
+    shareDialog.classList.toggle("active");
+    if (shareDialog.classList.contains("active")) {
+        generateShareURL();
+    }
+}
+
+function generateShareURL() {
+    var shareURL = "http://synthsequencer.herokuapp.com?sequence=" + encodeGrid();
+    var shareTextBox = document.getElementById("shareLink");
+    shareTextBox.value = shareURL;
+    shareTextBox.select();
+}
+
+function copyShareURL() {
+    var shareTextBox = document.getElementById("shareLink");
+    shareTextBox.select();
+    document.execCommand('copy');
 }
