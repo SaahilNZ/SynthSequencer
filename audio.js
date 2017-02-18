@@ -1,3 +1,4 @@
+var queries = parseQueries();
 var bpm = 60;
 var noteLength = 15 / bpm;
 var cutoff = 0.9;
@@ -23,6 +24,7 @@ var frequencies = [
 ];
 var oscillators = [];
 var gainNodes = [];
+var currentWaveForm = "sine";
 
 var randomise = false;
 var nodeAdded = false;
@@ -36,7 +38,7 @@ for (var i = 0; i < frequencies.length; i++) {
     var gain = context.createGain();
     gain.gain.value = 0;
     osc.frequency.value = frequencies[i];
-    osc.type = "sine";
+    osc.type = currentWaveForm;
     osc.connect(gain);
     gain.connect(context.destination);
     osc.start();
@@ -62,6 +64,10 @@ function createGrid() {
         }
         sequencerNodes[y] = cellArray
         document.getElementById("sequencerGrid").appendChild(row);
+    }
+
+    if (queries != null && 'sequence' in queries) {
+        decodeStringSequence(queries['sequence']);
     }
 }
 
@@ -91,14 +97,9 @@ function playSynth() {
     }
 }
 
-function toggleChecked(isManual) {
+function toggleChecked() {
     var node = window.event.srcElement;
-    if (node.classList.contains("checked")) {
-        node.classList.remove("checked");
-    }
-    else {
-        node.classList.add("checked")
-    }
+    node.classList.toggle("checked");
 }
 
 function clearSelection() {
@@ -113,81 +114,75 @@ function clearSelection() {
 }
 
 function changeWaveform(waveform) {
-    var sine = document.getElementById("sineButton");
-    var saw = document.getElementById("sawtoothButton");
-    var square = document.getElementById("squareButton");
-    var triangle = document.getElementById("triangleButton");
+    if (waveform != currentWaveForm) {
+        switch (waveform) {
+            case "sine":
+                switch (currentWaveForm) {
+                    case "sawtooth":
+                        var saw = document.getElementById("sawtoothButton").classList.remove("selected");
+                        break;
+                    case "square":
+                        var square = document.getElementById("squareButton").classList.remove("selected");
+                        break;
+                    case "triangle":
+                        var triangle = document.getElementById("triangleButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("sineButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
 
-    if (waveform == "sine") {
-        if (saw.classList.contains("selected")) {
-            saw.classList.remove("selected");
-        }
-        if (square.classList.contains("selected")) {
-            square.classList.remove("selected");
-        }
-        if (triangle.classList.contains("selected")) {
-            triangle.classList.remove("selected");
-        }
+            case "sawtooth":
+                switch (currentWaveForm) {
+                    case "sine":
+                        document.getElementById("sineButton").classList.remove("selected");
+                        break;
+                    case "square":
+                        var square = document.getElementById("squareButton").classList.remove("selected");
+                        break;
+                    case "triangle":
+                        var triangle = document.getElementById("triangleButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("sawtoothButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
 
-        if (!sine.classList.contains("selected")) {
-            sine.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
-        }
-    }
-    else if (waveform == "sawtooth") {
-        if (sine.classList.contains("selected")) {
-            sine.classList.remove("selected");
-        }
-        if (square.classList.contains("selected")) {
-            square.classList.remove("selected");
-        }
-        if (triangle.classList.contains("selected")) {
-            triangle.classList.remove("selected");
-        }
+            case "square":
+                switch (currentWaveForm) {
+                    case "sine":
+                        document.getElementById("sineButton").classList.remove("selected");
+                        break;
+                    case "sawtooth":
+                        var saw = document.getElementById("sawtoothButton").classList.remove("selected");
+                        break;
+                    case "triangle":
+                        var triangle = document.getElementById("triangleButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("squareButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
 
-        if (!saw.classList.contains("selected")) {
-            saw.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
-        }
-    }
-    else if (waveform == "square") {
-        if (saw.classList.contains("selected")) {
-            saw.classList.remove("selected");
-        }
-        if (sine.classList.contains("selected")) {
-            sine.classList.remove("selected");
-        }
-        if (triangle.classList.contains("selected")) {
-            triangle.classList.remove("selected");
-        }
-
-        if (!square.classList.contains("selected")) {
-            square.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
-        }
-    }
-    else if (waveform == "triangle") {
-        if (saw.classList.contains("selected")) {
-            saw.classList.remove("selected");
-        }
-        if (square.classList.contains("selected")) {
-            square.classList.remove("selected");
-        }
-        if (sine.classList.contains("selected")) {
-            sine.classList.remove("selected");
+            case "triangle":
+                switch (currentWaveForm) {
+                    case "sine":
+                        document.getElementById("sineButton").classList.remove("selected");
+                        break;
+                    case "sawtooth":
+                        var saw = document.getElementById("sawtoothButton").classList.remove("selected");
+                        break;
+                    case "square":
+                        var square = document.getElementById("squareButton").classList.remove("selected");
+                        break;
+                }
+                document.getElementById("triangleButton").classList.add("selected");
+                currentWaveForm = waveform;
+                break;
         }
 
-        if (!triangle.classList.contains("selected")) {
-            triangle.classList.add("selected");
-            for (var i = 0; i < oscillators.length; i++) {
-                oscillators[i].type = waveform;
-            }
+        for (var i = 0; i < oscillators.length; i++) {
+            oscillators[i].type = waveform;
         }
     }
 }
@@ -234,4 +229,133 @@ function randomiseGrid() {
             nodeAdded = false;
         }
     }
+}
+
+function encodeGrid() {
+    var encodedValue = "";
+    var groupCount = Math.ceil((frequencies.length * beats) / 6);
+    for (var i = 0; i < groupCount; i++) {
+        var binary = "";
+        for (var g = 0; g < 6; g++) {
+            var y = Math.floor((g + i * 6) / beats);
+            var x = (g + (i * 6)) % beats;
+            var node = sequencerNodes[y][x];
+            if (node.classList.contains("checked")) {
+                binary += "1";
+            }
+            else {
+                binary += "0";
+            }
+        }
+        encodedValue += convertBase(binary, 2, 64);
+    }
+
+    var wave = 0;
+    switch (currentWaveForm) {
+        case "sine":
+            wave = 0;
+            break;
+        case "sawtooth":
+            wave = 1;
+            break;
+        case "square":
+            wave = 2;
+            break;
+        case "triangle":
+            wave = 3;
+            break;
+    }
+
+    encodedValue += convertBase(wave.toString(), 10, 64);
+    return encodedValue;
+}
+
+function decodeStringSequence(sequence) {
+    clearGrid();
+    var chars = sequence.split('');
+    for (var g = 0; g < chars.length - 1; g++) {
+        var binary = convertBase(chars[g], 64, 2);
+        while (binary.length < 6) {
+            binary = "0" + binary;
+        }
+        for (var i = 0; i < binary.length; i++) {
+            var y = Math.floor((i + (g * 6)) / beats);
+            var x = (i + (g * 6)) % beats;
+            var node = sequencerNodes[y][x];
+            if (binary[i] == "1") {
+                node.classList.add("checked");
+            }
+        }
+    }
+    switch (chars[chars.length - 1]) {
+        case "0":
+            changeWaveform("sine");
+            break;
+        case "1":
+            changeWaveform("sawtooth");
+            break;
+        case "2":
+            changeWaveform("square");
+            break;
+        case "3":
+            changeWaveform("triangle");
+            break;
+    }
+}
+
+// GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
+function convertBase(value, from_base, to_base) {
+    var range = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
+    var from_range = range.slice(0, from_base);
+    var to_range = range.slice(0, to_base);
+
+    var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+        if (from_range.indexOf(digit) === -1) throw new Error('Invalid digit `' + digit + '` for base ' + from_base + '.');
+        return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+    }, 0);
+
+    var new_value = '';
+    while (dec_value > 0) {
+        new_value = to_range[dec_value % to_base] + new_value;
+        dec_value = (dec_value - (dec_value % to_base)) / to_base;
+    }
+    return new_value || '0';
+}
+
+function parseQueries() {
+    var url = window.location.href;
+    var queryIndex = url.indexOf('?');
+    if (queryIndex < 0 || queryIndex >= url.length - 1) {
+        return null;
+    }
+    var queryString = url.substring(queryIndex + 1);
+    var queryArray = queryString.split('&');
+    var queries = {};
+    for (var i = 0; i < queryArray.length; i++) {
+        var query = queryArray[i].split('=');
+        queries[query[0]] = query[1];
+    }
+
+    return queries;
+}
+
+function toggleShareDialog() {
+    var shareDialog = document.getElementById("shareDialog");
+    shareDialog.classList.toggle("active");
+    if (shareDialog.classList.contains("active")) {
+        generateShareURL();
+    }
+}
+
+function generateShareURL() {
+    var shareURL = "http://synthsequencer.herokuapp.com?sequence=" + encodeGrid();
+    var shareTextBox = document.getElementById("shareLink");
+    shareTextBox.value = shareURL;
+    shareTextBox.select();
+}
+
+function copyShareURL() {
+    var shareTextBox = document.getElementById("shareLink");
+    shareTextBox.select();
+    document.execCommand('copy');
 }
