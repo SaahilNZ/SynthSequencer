@@ -5,6 +5,7 @@ var cutoff = 0.9;
 var beats = 16;
 var context;
 var sequencerNodes = []
+var scales = {};
 var frequencies = [
     1046.50,
     987.77,
@@ -32,6 +33,8 @@ var nodeAdded = false;
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 context = new AudioContext();
 context.suspend();
+
+parseScalesFile();
 
 for (var i = 0; i < frequencies.length; i++) {
     var osc = context.createOscillator();
@@ -69,6 +72,24 @@ function createGrid() {
     if (queries != null && 'sequence' in queries) {
         decodeStringSequence(queries['sequence']);
     }
+}
+
+function parseScalesFile() {
+    readTextFile("scales.json", function (jsonText) {
+        scales = JSON.parse(jsonText);
+    });
+}
+
+function readTextFile(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    }
+    rawFile.send(null);
 }
 
 function startAudio() {
