@@ -5,7 +5,9 @@ var cutoff = 0.9;
 var beats = 16;
 var context;
 var sequencerNodes = [];
-var currentKey = "c";
+var waveforms = [ "sine", "sawtooth", "square", "triangle" ];
+var keys = [ "c", "d", "e", "f", "g", "a", "b" ];
+var currentKey = keys[0];
 var major = true;
 var frequencies = [
     1046.50,
@@ -26,7 +28,7 @@ var frequencies = [
 ];
 var oscillators = [];
 var gainNodes = [];
-var currentWaveForm = "sine";
+var currentWaveForm = waveforms[0];
 
 var randomise = false;
 var nodeAdded = false;
@@ -115,15 +117,15 @@ function clearSelection() {
     }
 }
 
-function changeScale(key, major) {
-    var tonality = major ? "major" : "minor";
+function changeScale(key, isMajor) {
+    var tonality = isMajor ? "major" : "minor";
     if (scales != null && key in scales) {
         frequencies = scales[key][tonality];
         for (var i = 0; i < frequencies.length; i++) {
             oscillators[i].frequency.value = frequencies[i];
         }
     }
-    major = tonality;
+    major = isMajor;
     currentKey = key;
 }
 
@@ -263,24 +265,18 @@ function encodeGrid() {
         }
         encodedValue += convertBase(binary, 2, 64);
     }
-
-    var wave = 0;
-    switch (currentWaveForm) {
-        case "sine":
-            wave = 0;
-            break;
-        case "sawtooth":
-            wave = 1;
-            break;
-        case "square":
-            wave = 2;
-            break;
-        case "triangle":
-            wave = 3;
-            break;
+    var options = major ? "0" : "1";
+    var keyBinary = convertBase(keys.indexOf(currentKey).toString(), 10, 2);
+    while (keyBinary.length < 3) {
+        keyBinary = "0" + keyBinary;
+    }
+    var waveBinary = convertBase(waveforms.indexOf(currentWaveForm).toString(), 10, 2);
+    while (waveBinary.length < 2) {
+        waveBinary = "0" + waveBinary;
     }
 
-    encodedValue += convertBase(wave.toString(), 10, 64);
+    options += keyBinary + waveBinary;
+    encodedValue += convertBase(options, 2, 64);
     return encodedValue;
 }
 
@@ -306,7 +302,6 @@ function decodeStringSequence(sequence) {
     while (optionsBinary.length < 6) {
         optionsBinary = "0" + optionsBinary;
     }
-    console.log(optionsBinary);
     var isMajor = optionsBinary[0] == "0" ? true : false;
     var newKey = convertBase(optionsBinary.substr(1, 3), 2, 10);
     var newWaveform = convertBase(optionsBinary.substr(4, 2), 2, 10);
