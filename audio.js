@@ -4,7 +4,9 @@ var noteLength = 15 / bpm;
 var cutoff = 0.9;
 var beats = 16;
 var context;
-var sequencerNodes = []
+var sequencerNodes = [];
+var currentKey = "c";
+var major = true;
 var scales = {};
 var frequencies = [
     1046.50,
@@ -130,6 +132,16 @@ function clearSelection() {
             if (node.classList.contains("selected")) {
                 node.classList.remove("selected");
             }
+        }
+    }
+}
+
+function changeScale(key, major) {
+    var tonality = major ? "major" : "minor";
+    if (scales != null && key in scales) {
+        frequencies = scales[key][tonality];
+        for (var i = 0; i < frequencies.length; i++) {
+            oscillators[i].frequency.value = frequencies[i];
         }
     }
 }
