@@ -7,7 +7,6 @@ var context;
 var sequencerNodes = [];
 var currentKey = "c";
 var major = true;
-var scales = {};
 var frequencies = [
     1046.50,
     987.77,
@@ -35,8 +34,6 @@ var nodeAdded = false;
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 context = new AudioContext();
 context.suspend();
-
-parseScalesFile();
 
 for (var i = 0; i < frequencies.length; i++) {
     var osc = context.createOscillator();
@@ -74,24 +71,6 @@ function createGrid() {
     if (queries != null && 'sequence' in queries) {
         decodeStringSequence(queries['sequence']);
     }
-}
-
-function parseScalesFile() {
-    readTextFile("scales.json", function (jsonText) {
-        scales = JSON.parse(jsonText);
-    });
-}
-
-function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
 }
 
 function startAudio() {
@@ -144,6 +123,8 @@ function changeScale(key, major) {
             oscillators[i].frequency.value = frequencies[i];
         }
     }
+    major = tonality;
+    currentKey = key;
 }
 
 function changeWaveform(waveform) {
@@ -320,7 +301,39 @@ function decodeStringSequence(sequence) {
             }
         }
     }
-    switch (chars[chars.length - 1]) {
+    var optionsChar = chars[chars.length - 1];
+    var optionsBinary = convertBase(optionsChar, 64, 2);
+    while (optionsBinary.length < 6) {
+        optionsBinary = "0" + optionsBinary;
+    }
+    console.log(optionsBinary);
+    var isMajor = optionsBinary[0] == "0" ? true : false;
+    var newKey = convertBase(optionsBinary.substr(1, 3), 2, 10);
+    var newWaveform = convertBase(optionsBinary.substr(4, 2), 2, 10);
+    switch (newKey) {
+        case "0":
+            changeScale("c", isMajor);
+            break;
+        case "1":
+            changeScale("d", isMajor);
+            break;
+        case "2":
+            changeScale("e", isMajor);
+            break;
+        case "3":
+            changeScale("f", isMajor);
+            break;
+        case "4":
+            changeScale("g", isMajor);
+            break;
+        case "5":
+            changeScale("a", isMajor);
+            break;
+        case "6":
+            changeScale("b", isMajor);
+            break;
+    }
+    switch (newWaveform) {
         case "0":
             changeWaveform("sine");
             break;
