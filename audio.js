@@ -305,43 +305,8 @@ function decodeStringSequence(sequence) {
     var isMajor = optionsBinary[0] == "0" ? true : false;
     var newKey = convertBase(optionsBinary.substr(1, 3), 2, 10);
     var newWaveform = convertBase(optionsBinary.substr(4, 2), 2, 10);
-    switch (newKey) {
-        case "0":
-            changeScale("c", isMajor);
-            break;
-        case "1":
-            changeScale("d", isMajor);
-            break;
-        case "2":
-            changeScale("e", isMajor);
-            break;
-        case "3":
-            changeScale("f", isMajor);
-            break;
-        case "4":
-            changeScale("g", isMajor);
-            break;
-        case "5":
-            changeScale("a", isMajor);
-            break;
-        case "6":
-            changeScale("b", isMajor);
-            break;
-    }
-    switch (newWaveform) {
-        case "0":
-            changeWaveform("sine");
-            break;
-        case "1":
-            changeWaveform("sawtooth");
-            break;
-        case "2":
-            changeWaveform("square");
-            break;
-        case "3":
-            changeWaveform("triangle");
-            break;
-    }
+    changeScale(keys[parseInt(newKey)], isMajor);
+    changeWaveform(waveforms[parseInt(newWaveform)]);
 }
 
 // GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
