@@ -5,6 +5,7 @@
     <title>Synth Sequencer</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="images/favicon.png" type="image/png">
+    <script src="scales.js"></script>
     <script src="audio.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -49,6 +50,9 @@
                 <span class="stretch"></span>
             </div>
             <div class="buttonContainer">
+                <div id="scalesButton" onclick="toggleScalesDialog()">
+                    <p>Scales</p>
+                </div>
                 <div id="randomiseButton" onclick="toggleRandomise()">
                     <p>Randomise</p>
                     <p class="blur">Randomise</p>
@@ -57,13 +61,15 @@
                     <p>Share</p>
                 </div>
             </div>
-            <p class="version">Synth Sequencer v1.2</p>
+            <p class="version">Synth Sequencer v2.0</p>
             <p class="copyright">Copyright &copy; Saahil Hari 2017</p>
         </div>
     </div>
-    <div id="shareDialog">
+    <div id="shareDialog" class="dialog">
         <div id="shareContainer">
-            <p>Send this link to a friend to share your sequence:</p>
+            <div class="headerContainer">
+                <p>Send this link to a friend to share your sequence:</p>
+            </div>
             <div id="shareLinkContainer">
                 <input id="shareLink" type="text" readonly>
                 <div id="copyLink" onclick="copyShareURL()">
@@ -71,6 +77,59 @@
                 </div>
             </div>
             <div id="closeShareButton" onclick="toggleShareDialog()">
+                <p>Close</p>
+            </div>
+        </div>
+    </div>
+    <div id="scalesDialog" class="dialog">
+        <div id="scalesContainer">
+            <div class="headerContainer">
+                <p>Key:</p>
+            </div>
+            <div id="keyContainer">
+                <div id="cButton" class="keyButton" onclick="changeKey()">
+                    <p>C</p>
+                    <p class="blur">C</p>
+                </div>
+                <div id="dButton" class="keyButton" onclick="changeKey()">
+                    <p>D</p>
+                    <p class="blur">D</p>
+                </div>
+                <div id="eButton" class="keyButton" onclick="changeKey()">
+                    <p>E</p>
+                    <p class="blur">E</p>
+                </div>
+                <div id="fButton" class="keyButton" onclick="changeKey()">
+                    <p>F</p>
+                    <p class="blur">F</p>
+                </div>
+                <div id="gButton" class="keyButton" onclick="changeKey()">
+                    <p>G</p>
+                    <p class="blur">G</p>
+                </div>
+                <div id="aButton" class="keyButton" onclick="changeKey()">
+                    <p>A</p>
+                    <p class="blur">A</p>
+                </div>
+                <div id="bButton" class="keyButton" onclick="changeKey()">
+                    <p>B</p>
+                    <p class="blur">B</p>
+                </div>
+            </div>
+            <div class="headerContainer">
+                <p>Tonality:</p>
+            </div>
+            <div id="tonalityContainer">
+                <div id="majorButton" onclick="changeTonality()">
+                    <p>Major</p>
+                    <p class="blur">Major</p>
+                </div>
+                <div id="minorButton" onclick="changeTonality()">
+                    <p>Minor</p>
+                    <p class="blur">Minor</p>
+                </div>
+            </div>
+            <div id="closeScalesButton" onclick="toggleScalesDialog()">
                 <p>Close</p>
             </div>
         </div>
