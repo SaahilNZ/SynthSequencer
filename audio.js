@@ -345,6 +345,11 @@ function parseQueries() {
     return queries;
 }
 
+function toggleScalesDialog() {
+    var scalesDialog = document.getElementById("scalesDialog");
+    scalesDialog.classList.toggle("active");
+}
+
 function toggleShareDialog() {
     var shareDialog = document.getElementById("shareDialog");
     shareDialog.classList.toggle("active");

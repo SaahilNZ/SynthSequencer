@@ -50,6 +50,9 @@
                 <span class="stretch"></span>
             </div>
             <div class="buttonContainer">
+                <div id="scalesButton" onclick="toggleScalesDialog()">
+                    <p>Scales</p>
+                </div>
                 <div id="randomiseButton" onclick="toggleRandomise()">
                     <p>Randomise</p>
                     <p class="blur">Randomise</p>
@@ -62,9 +65,11 @@
             <p class="copyright">Copyright &copy; Saahil Hari 2017</p>
         </div>
     </div>
-    <div id="shareDialog">
+    <div id="shareDialog" class="dialog">
         <div id="shareContainer">
-            <p>Send this link to a friend to share your sequence:</p>
+            <div class="headerContainer">
+                <p>Send this link to a friend to share your sequence:</p>
+            </div>
             <div id="shareLinkContainer">
                 <input id="shareLink" type="text" readonly>
                 <div id="copyLink" onclick="copyShareURL()">
@@ -72,6 +77,52 @@
                 </div>
             </div>
             <div id="closeShareButton" onclick="toggleShareDialog()">
+                <p>Close</p>
+            </div>
+        </div>
+    </div>
+    <div id="scalesDialog" class="dialog">
+        <div id="scalesContainer">
+            <div class="headerContainer">
+                <p>Tonality:</p>
+            </div>
+            <div id="tonalityContainer">
+                <div id="majorButton">
+                    <p>Major</p>
+                    <p class="blur">Major</p>
+                </div>
+                <div id="minorButton">
+                    <p>Minor</p>
+                    <p class="blur">Minor</p>
+                </div>
+            </div>
+            <div class="headerContainer">
+                <p>Key:</p>
+            </div>
+            <div id="keyContainer">
+                <div class="keyButton">
+                    <p>C</p>
+                </div>
+                <div class="keyButton">
+                    <p>D</p>
+                </div>
+                <div class="keyButton">
+                    <p>E</p>
+                </div>
+                <div class="keyButton">
+                    <p>F</p>
+                </div>
+                <div class="keyButton">
+                    <p>G</p>
+                </div>
+                <div class="keyButton">
+                    <p>A</p>
+                </div>
+                <div class="keyButton">
+                    <p>B</p>
+                </div>
+            </div>
+            <div id="closeScalesButton" onclick="toggleScalesDialog()">
                 <p>Close</p>
             </div>
         </div>
