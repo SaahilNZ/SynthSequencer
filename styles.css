@@ -609,6 +609,17 @@ body {
     color: white;
 }
 
+.keyButton p.blur {
+    display: none;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+    opacity: 0.75;
+}
+
+.keyButton.selected p.blur {
+    display: inline-block;
+}
+
 #closeScalesButton {
     display: inline-block;
     position: relative;
