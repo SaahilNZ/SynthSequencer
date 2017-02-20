@@ -5,8 +5,8 @@ var cutoff = 0.9;
 var beats = 16;
 var context;
 var sequencerNodes = [];
-var waveforms = [ "sine", "sawtooth", "square", "triangle" ];
-var keys = [ "c", "d", "e", "f", "g", "a", "b" ];
+var waveforms = ["sine", "sawtooth", "square", "triangle"];
+var keys = ["c", "d", "e", "f", "g", "a", "b"];
 var currentKey = keys[0];
 var major = true;
 var frequencies = [
@@ -26,6 +26,15 @@ var frequencies = [
     293.66,
     261.64
 ];
+var keyButtons = {
+    "cButton": "c",
+    "dButton": "d",
+    "eButton": "e",
+    "fButton": "f",
+    "gButton": "g",
+    "aButton": "a",
+    "bButton": "b",
+};
 var oscillators = [];
 var gainNodes = [];
 var currentWaveForm = waveforms[0];
@@ -348,6 +357,65 @@ function parseQueries() {
 function toggleScalesDialog() {
     var scalesDialog = document.getElementById("scalesDialog");
     scalesDialog.classList.toggle("active");
+    if (scalesDialog.classList.contains("active")) {
+        var majorButton = document.getElementById("majorButton");
+        var minorButton = document.getElementById("minorButton");
+        if (major) {
+            if (!majorButton.classList.contains("selected")) {
+                majorButton.classList.add("selected");
+            }
+            if (minorButton.classList.contains("selected")) {
+                minorButton.classList.remove("selected");
+            }
+        }
+        else {
+            if (!minorButton.classList.contains("selected")) {
+                minorButton.classList.add("selected");
+            }
+            if (majorButton.classList.contains("selected")) {
+                majorButton.classList.remove("selected");
+            }
+        }
+        for (var keyButton in keyButtons) {
+            var btn = document.getElementById(keyButton);
+            if (keyButtons[keyButton] == currentKey) {
+                if (!btn.classList.contains("selected")) {
+                    btn.classList.add("selected");
+                }
+            }
+            else {
+                if (btn.classList.contains("selected")) {
+                    btn.classList.remove("selected");
+                }
+            }
+        }
+    }
+}
+
+function changeTonality() {
+    var sender = window.event.srcElement;
+    var isMajor = true;
+    if (sender.id == "minorButton") {
+        isMajor = false;
+    }
+    if (isMajor != major) {
+        document.getElementById("majorButton").classList.toggle("selected");
+        document.getElementById("minorButton").classList.toggle("selected");
+        changeScale(currentKey, isMajor);
+    }
+}
+
+function changeKey() {
+    var sender = window.event.srcElement;
+    var newKey = "c";
+    if (sender.id in keyButtons) {
+        newKey = keyButtons[sender.id];
+    }
+    if (newKey != currentKey) {
+        document.getElementById(currentKey + "Button").classList.remove("selected");
+        document.getElementById(newKey + "Button").classList.add("selected");
+        changeScale(newKey, major);
+    }
 }
 
 function toggleShareDialog() {
