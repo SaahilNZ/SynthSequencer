@@ -192,9 +192,38 @@ body {
     line-height: 0;
 }
 
-#randomiseButton {
+#scalesButton {
     float: left;
-    width: calc(50% - 4px);
+    width: calc(33% - 4px);
+    height: 100%;
+    position: relative;
+    background-color: #222;
+}
+
+#scalesButton:hover {
+    background-color: #333;
+}
+
+#scalesButton:active {
+    background-color: #1D1D1D;
+}
+
+#scalesButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#randomiseButton {
+    display: inline-block;
+    width: calc(33% - 4px);
     height: 100%;
     position: relative;
     background-color: #222;
@@ -246,7 +275,7 @@ body {
 
 #shareButton {
     float: right;
-    width: calc(50% - 4px);
+    width: calc(33% - 4px);
     height: 100%;
     position: relative;
     background-color: #222;
@@ -287,7 +316,7 @@ body {
     margin: 4px 0 0 0;
 }
 
-#shareDialog {
+.dialog {
     position: absolute;
     width: 100%;
     min-height: 100%;
@@ -297,7 +326,7 @@ body {
     display: none;
 }
 
-#shareDialog.active {
+.dialog.active {
     display: inline;
 }
 
@@ -312,13 +341,21 @@ body {
     background-color: #111;
 }
 
-#shareContainer p {
+.headerContainer {
     margin: 4vh 0 0 0;
+    display: inline-block;
+    width: 100%;
+    height: auto;
+}
+
+.headerContainer p {
+    margin: 0;
     max-width: 80vw;
-    text-align: center;
     font-family: BebasNeue;
     font-size: 4vh;
     color: white;
+    margin: auto;
+    left: 50%;
 }
 
 #shareLinkContainer {
@@ -388,6 +425,220 @@ body {
 }
 
 #closeShareButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#scalesContainer {
+    position: absolute;
+    text-align: center;
+    width: 90vw;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #111;
+}
+
+#tonalityContainer {
+    margin: 2vh 0 0 0;
+    display: inline-block;
+    text-align: center;
+    height: 6vh;
+    width: 90%;
+}
+
+#majorButton {
+    float: left;
+    position: relative;
+    height: 100%;
+    width: calc(50% - 4px);
+    background-color: #222;
+}
+
+#majorButton:hover {
+    background-color: #333;
+}
+
+#majorButton:active {
+    background-color: #1D1D1D;
+}
+
+#majorButton.selected {
+    background-color: cornflowerblue;
+}
+
+#majorButton.selected:hover {
+    background-color: #7EA6EA   ;
+}
+
+#majorButton.selected:active {
+    background-color: #3879EA;
+}
+
+#majorButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#majorButton p.blur {
+    display: none;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+    opacity: 0.75;
+}
+
+#majorButton.selected p.blur {
+    display: inline-block;
+}
+
+#minorButton {
+    float: right;
+    position: relative;
+    height: 100%;
+    width: calc(50% - 4px);
+    background-color: #222;
+}
+
+#minorButton:hover {
+    background-color: #333;
+}
+
+#minorButton:active {
+    background-color: #1D1D1D;
+}
+
+#minorButton.selected {
+    background-color: cornflowerblue;
+}
+
+#minorButton.selected:hover {
+    background-color: #7EA6EA   ;
+}
+
+#minorButton.selected:active {
+    background-color: #3879EA;
+}
+
+#minorButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+#minorButton p.blur {
+    display: none;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+    opacity: 0.75;
+}
+
+#minorButton.selected p.blur {
+    display: inline-block;
+}
+
+#keyContainer {
+    margin: 2vh 0 0 0;
+    display: inline-block;
+    text-align: center;
+    height: 6vh;
+    width: 90%;
+}
+
+.keyButton {
+    display: inline-block;
+    position: relative;
+    width: calc((100% / 7) - 4px);
+    height: 100%;
+    background-color: #222;
+}
+
+.keyButton:hover {
+    background-color: #333;
+}
+
+.keyButton:active {
+    background-color: #1D1D1D;
+}
+
+.keyButton.selected {
+    background-color: cornflowerblue;
+}
+
+.keyButton.selected:hover {
+    background-color: #7EA6EA   ;
+}
+
+.keyButton.selected:active {
+    background-color: #3879EA;
+}
+
+.keyButton p {
+    display: inline-block;
+    vertical-align: middle;
+    position: absolute;
+    font-family: BebasNeue;
+    font-size: 4vh;
+    margin: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
+.keyButton p.blur {
+    display: none;
+    -webkit-filter: blur(2px);
+    filter: blur(2px);
+    opacity: 0.75;
+}
+
+.keyButton.selected p.blur {
+    display: inline-block;
+}
+
+#closeScalesButton {
+    display: inline-block;
+    position: relative;
+    width: 20vh;
+    height: 6vh;
+    max-width: 80vw;
+    background-color: #222;
+    margin: 4vh 0 2vh 0;
+}
+
+#closeScalesButton:hover {
+    background-color: #333;
+}
+
+#closeScalesButton:active {
+    background-color: #1D1D1D;
+}
+
+#closeScalesButton p {
     display: inline-block;
     vertical-align: middle;
     position: absolute;

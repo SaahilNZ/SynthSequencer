@@ -4,7 +4,11 @@ var noteLength = 15 / bpm;
 var cutoff = 0.9;
 var beats = 16;
 var context;
-var sequencerNodes = []
+var sequencerNodes = [];
+var waveforms = ["sine", "sawtooth", "square", "triangle"];
+var keys = ["c", "d", "e", "f", "g", "a", "b"];
+var currentKey = keys[0];
+var major = true;
 var frequencies = [
     1046.50,
     987.77,
@@ -22,9 +26,18 @@ var frequencies = [
     293.66,
     261.64
 ];
+var keyButtons = {
+    "cButton": "c",
+    "dButton": "d",
+    "eButton": "e",
+    "fButton": "f",
+    "gButton": "g",
+    "aButton": "a",
+    "bButton": "b",
+};
 var oscillators = [];
 var gainNodes = [];
-var currentWaveForm = "sine";
+var currentWaveForm = waveforms[0];
 
 var randomise = false;
 var nodeAdded = false;
@@ -111,6 +124,18 @@ function clearSelection() {
             }
         }
     }
+}
+
+function changeScale(key, isMajor) {
+    var tonality = isMajor ? "major" : "minor";
+    if (scales != null && key in scales) {
+        frequencies = scales[key][tonality];
+        for (var i = 0; i < frequencies.length; i++) {
+            oscillators[i].frequency.value = frequencies[i];
+        }
+    }
+    major = isMajor;
+    currentKey = key;
 }
 
 function changeWaveform(waveform) {
@@ -249,24 +274,18 @@ function encodeGrid() {
         }
         encodedValue += convertBase(binary, 2, 64);
     }
-
-    var wave = 0;
-    switch (currentWaveForm) {
-        case "sine":
-            wave = 0;
-            break;
-        case "sawtooth":
-            wave = 1;
-            break;
-        case "square":
-            wave = 2;
-            break;
-        case "triangle":
-            wave = 3;
-            break;
+    var options = major ? "0" : "1";
+    var keyBinary = convertBase(keys.indexOf(currentKey).toString(), 10, 2);
+    while (keyBinary.length < 3) {
+        keyBinary = "0" + keyBinary;
+    }
+    var waveBinary = convertBase(waveforms.indexOf(currentWaveForm).toString(), 10, 2);
+    while (waveBinary.length < 2) {
+        waveBinary = "0" + waveBinary;
     }
 
-    encodedValue += convertBase(wave.toString(), 10, 64);
+    options += keyBinary + waveBinary;
+    encodedValue += convertBase(options, 2, 64);
     return encodedValue;
 }
 
@@ -287,20 +306,16 @@ function decodeStringSequence(sequence) {
             }
         }
     }
-    switch (chars[chars.length - 1]) {
-        case "0":
-            changeWaveform("sine");
-            break;
-        case "1":
-            changeWaveform("sawtooth");
-            break;
-        case "2":
-            changeWaveform("square");
-            break;
-        case "3":
-            changeWaveform("triangle");
-            break;
+    var optionsChar = chars[chars.length - 1];
+    var optionsBinary = convertBase(optionsChar, 64, 2);
+    while (optionsBinary.length < 6) {
+        optionsBinary = "0" + optionsBinary;
     }
+    var isMajor = optionsBinary[0] == "0" ? true : false;
+    var newKey = convertBase(optionsBinary.substr(1, 3), 2, 10);
+    var newWaveform = convertBase(optionsBinary.substr(4, 2), 2, 10);
+    changeScale(keys[parseInt(newKey)], isMajor);
+    changeWaveform(waveforms[parseInt(newWaveform)]);
 }
 
 // GitHub Gist: https://gist.github.com/ryansmith94/91d7fd30710264affeb9
@@ -337,6 +352,70 @@ function parseQueries() {
     }
 
     return queries;
+}
+
+function toggleScalesDialog() {
+    var scalesDialog = document.getElementById("scalesDialog");
+    scalesDialog.classList.toggle("active");
+    if (scalesDialog.classList.contains("active")) {
+        var majorButton = document.getElementById("majorButton");
+        var minorButton = document.getElementById("minorButton");
+        if (major) {
+            if (!majorButton.classList.contains("selected")) {
+                majorButton.classList.add("selected");
+            }
+            if (minorButton.classList.contains("selected")) {
+                minorButton.classList.remove("selected");
+            }
+        }
+        else {
+            if (!minorButton.classList.contains("selected")) {
+                minorButton.classList.add("selected");
+            }
+            if (majorButton.classList.contains("selected")) {
+                majorButton.classList.remove("selected");
+            }
+        }
+        for (var keyButton in keyButtons) {
+            var btn = document.getElementById(keyButton);
+            if (keyButtons[keyButton] == currentKey) {
+                if (!btn.classList.contains("selected")) {
+                    btn.classList.add("selected");
+                }
+            }
+            else {
+                if (btn.classList.contains("selected")) {
+                    btn.classList.remove("selected");
+                }
+            }
+        }
+    }
+}
+
+function changeTonality() {
+    var sender = window.event.srcElement;
+    var isMajor = true;
+    if (sender.id == "minorButton") {
+        isMajor = false;
+    }
+    if (isMajor != major) {
+        document.getElementById("majorButton").classList.toggle("selected");
+        document.getElementById("minorButton").classList.toggle("selected");
+        changeScale(currentKey, isMajor);
+    }
+}
+
+function changeKey() {
+    var sender = window.event.srcElement;
+    var newKey = "c";
+    if (sender.id in keyButtons) {
+        newKey = keyButtons[sender.id];
+    }
+    if (newKey != currentKey) {
+        document.getElementById(currentKey + "Button").classList.remove("selected");
+        document.getElementById(newKey + "Button").classList.add("selected");
+        changeScale(newKey, major);
+    }
 }
 
 function toggleShareDialog() {
