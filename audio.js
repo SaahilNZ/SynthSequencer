@@ -110,8 +110,9 @@ function playSynth() {
     }
 }
 
-function toggleChecked() {
-    var node = window.event.srcElement;
+function toggleChecked(e) {
+    var evt = e || window.event;
+    var node = evt.target || evt.srcElement;
     node.classList.toggle("checked");
 }
 
@@ -392,8 +393,9 @@ function toggleScalesDialog() {
     }
 }
 
-function changeTonality() {
-    var sender = window.event.srcElement;
+function changeTonality(e) {
+    var evt = e || window.event;
+    var sender = evt.target || evt.srcElement;
     var isMajor = true;
     if (sender.id == "minorButton") {
         isMajor = false;
@@ -405,8 +407,9 @@ function changeTonality() {
     }
 }
 
-function changeKey() {
-    var sender = window.event.srcElement;
+function changeKey(e) {
+    var evt = e || window.event;
+    var sender = evt.target || evt.srcElement;
     var newKey = "c";
     if (sender.id in keyButtons) {
         newKey = keyButtons[sender.id];
