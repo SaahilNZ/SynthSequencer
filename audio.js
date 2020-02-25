@@ -430,7 +430,7 @@ function toggleShareDialog() {
 }
 
 function generateShareURL() {
-    var shareURL = "http://synthsequencer.herokuapp.com?sequence=" + encodeGrid();
+    var shareURL = "https://saahilnz.github.io/SynthSequencer?sequence=" + encodeGrid();
     var shareTextBox = document.getElementById("shareLink");
     shareTextBox.value = shareURL;
     shareTextBox.select();
